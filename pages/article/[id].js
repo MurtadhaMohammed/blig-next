@@ -1,21 +1,39 @@
-import Header from '../components/header'
-import Footer from '../components/footer'
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import Head from "next/head";
+import { useEffect } from "react";
 
-const Article = () => {
+const Article = (props) => {
+  useEffect(() => {
+    console.log(props);
+  }, []);
   return (
     <>
-     <Header/>
+      <Head>
+        <title>{props.post.article.title}</title>
+        <meta property="og:title" content={props.post.article.title} />
+        <meta
+          property="og:description"
+          content={props.post.article.description}
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content={props.post.article.image} />
+      </Head>
+      <Header />
       <main>
         <section className="title-box container">
           <div>
-            <h1>First Article title for this design</h1>
+            <h1>{props.post.article.title}</h1>
             <small>By FikraSpace</small>
           </div>
           <span>June 19, 2020</span>
         </section>
 
         <section className="cover container">
-          <img src="/images/cover.png" />
+          <img
+            style={{ height: 500, objectFit: "cover" }}
+            src={props.post.article.image}
+          />
           <p className="caption">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -80,9 +98,38 @@ const Article = () => {
           </p>
         </section>
       </main>
-    <Footer/>
+      <Footer />
     </>
   );
 };
+
+// export async function getStaticPaths() {
+//   const res = await fetch("https://mashriq.herokuapp.com/dash/v1/articles");
+//   const posts = await res.json();
+
+//   const paths = posts.articles.map((post) => ({
+//     params: { id: post.id.toString() },
+//   }));
+
+//   return { paths, fallback: false };
+// }
+
+// export async function getStaticProps({ params }) {
+//   const res = await fetch(
+//     `https://mashriq.herokuapp.com/dash/v1/article/${params.id}`
+//   );
+
+//   const post = await res.json();
+//   return { props: { post } };
+// }
+
+export async function getServerSideProps({ params }) {
+  const res = await fetch(
+    `https://mashriq.herokuapp.com/dash/v1/article/${params.id}`
+  );
+
+  const post = await res.json();
+  return { props: { post } };
+}
 
 export default Article;
