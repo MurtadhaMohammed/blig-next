@@ -56,11 +56,11 @@ export async function getStaticProps() {
   const res = await fetch("https://mashriq.herokuapp.com/dash/v1/articles");
   const posts = await res.json();
 
-  const fileData = fs.readFileSync(
-    path.join(process.cwd(), "/file.json"),
-    "utf8"
-  );
-  //console.log(fileData)
+  // const fileData = fs.readFileSync(
+  //   path.join(process.cwd(), "/file.json"),
+  //   "utf8"
+  // );
+  // //console.log(fileData)
 
   return {
     props: {
