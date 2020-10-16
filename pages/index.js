@@ -3,9 +3,6 @@ import Footer from "../components/footer";
 import Card from "../components/card";
 import Head from "next/head";
 
-import fs from "fs";
-import path from "path";
-
 import { useEffect } from "react";
 
 const Home = (props) => {
